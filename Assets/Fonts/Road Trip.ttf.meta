@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 489bdcdea56bc6342bee33a4dcf0bb4e
+timeCreated: 1495916033
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Road Trip
+  fontNames:
+  - Road Trip
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

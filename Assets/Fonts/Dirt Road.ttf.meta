@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 077a015c13fd2f4429b75bb92e3b365e
+timeCreated: 1495916280
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Dirt Road
+  fontNames:
+  - Dirt Road
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
