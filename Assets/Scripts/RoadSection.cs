@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RoadSection : MonoBehaviour {
 
+	public GameObject lumbergh;
+
 	public GameObject[] decorSpawns;
 	public GameObject[] obstacleSpawns;
 
@@ -18,8 +20,23 @@ public class RoadSection : MonoBehaviour {
 		}
 	}
 
+	void SpawnObstacles(){
+		float lastX = 0f;
+
+		foreach(GameObject spawn in obstacleSpawns){
+			if(lastX != spawn.transform.position.x && Random.Range(0,2) == 1){
+				GameObject newObstacle = Instantiate(obstaclePrefabs[Random.Range(0,obstaclePrefabs.Length)], spawn.transform.position, Quaternion.identity);
+				lastX = spawn.transform.position.x;
+			}
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
+		lumbergh = GameObject.Find("Lumbergh");
+		if(lumbergh.GetComponent<Lumbergh>().playing){
+			SpawnObstacles();
+		}
 		SpawnDecor();
 	}
 	
