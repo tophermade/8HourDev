@@ -40,7 +40,7 @@ public class RoadSection : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		lumbergh = GameObject.Find("Lumbergh");
-		spawnParent = GameObject.Find("SpawnedObjects");
+		spawnParent = GameObject.Find("SpawnedMisc");
 		if(lumbergh.GetComponent<Lumbergh>().playing){
 			SpawnObstacles();
 		}
