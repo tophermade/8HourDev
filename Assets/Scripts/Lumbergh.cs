@@ -33,8 +33,8 @@ public class Lumbergh : MonoBehaviour {
 	public int lastBoardAt = 30;
 	public int currentScore = 0;
 
-	public float leftLane = 9.0f;
-	public float rightLane = 5.0f;
+	public float leftLane = 8.9f;
+	public float rightLane = 5.4f;
 
 	public float baseSpeed = 6.0f;
 	private float currentSpeed = 0.0f;
@@ -72,7 +72,6 @@ public class Lumbergh : MonoBehaviour {
 	{
 		MovePlayer();
 		ManageBoard();
-
 		if(playing){
 		}	
 	}
@@ -87,5 +86,16 @@ public class Lumbergh : MonoBehaviour {
 
 		spawnParent.transform.GetChild(spawnParent.transform.childCount -1).gameObject.GetComponent<RoadSection>().LateSpawnObstacles();
 		spawnParent.transform.GetChild(spawnParent.transform.childCount -2).gameObject.GetComponent<RoadSection>().LateSpawnObstacles();
+	}
+
+	public void ChangeLanes(){
+		print("called changelanes " + player.transform.position.z);
+		Vector3 temp = player.transform.position;
+		if(player.transform.position.z > 8.0f){
+			temp.z = rightLane;
+		} else {
+			temp.z = leftLane;
+		}
+		player.transform.position = temp;
 	}
 }
