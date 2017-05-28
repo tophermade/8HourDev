@@ -80,8 +80,12 @@ public class Lumbergh : MonoBehaviour {
 
 	public void StartRound(){
 		print("start round");
+		playing = true;
 		panelPlay.SetActive(true);
 		panelIndex.SetActive(false);
 		panelGameOver.SetActive(false);
+
+		spawnParent.transform.GetChild(spawnParent.transform.childCount -1).gameObject.GetComponent<RoadSection>().LateSpawnObstacles();
+		spawnParent.transform.GetChild(spawnParent.transform.childCount -2).gameObject.GetComponent<RoadSection>().LateSpawnObstacles();
 	}
 }
