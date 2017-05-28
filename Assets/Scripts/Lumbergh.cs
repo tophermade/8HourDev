@@ -9,6 +9,7 @@ public class Lumbergh : MonoBehaviour {
 	public GameObject[] trees;
 	public GameObject[] bushes;
 	public GameObject[] obstacles;
+	public GameObject destroyedPrefab;
 
 
 
@@ -38,11 +39,16 @@ public class Lumbergh : MonoBehaviour {
 
 	public float baseSpeed = 6.0f;
 	private float currentSpeed = 0.0f;
+	private Vector3 startPosition;
+	private Vector3 startCameraPosition;
+	private float positionAtRoundStart = 0.0f;
 
 
 	void Start()
 	{
 		body = player.GetComponent<Rigidbody>();
+		startCameraPosition = mainCam.transform.position;
+		startPosition = player.transform.position;
 	}
 
 
@@ -64,30 +70,72 @@ public class Lumbergh : MonoBehaviour {
 	void MovePlayer()
 	{
 		if(body.velocity.x < baseSpeed){
-			body.AddForce(player.transform.right * (body.velocity.x - 6.2f));
+			body.AddForce(player.transform.right * (body.velocity.x - baseSpeed));
 		}
 		mainCam.transform.position = new Vector3(player.transform.position.x - 7.4f, mainCam.transform.position.y, mainCam.transform.position.z);
 	}
+
+	void KeepScore(){
+		currentScore = (int)((player.transform.position.x - positionAtRoundStart)/10);
+		print(currentScore);
+	}
+
+
+	void EndRound(){
+		playing = false;
+		StartCoroutine(ShowRoundEndMenu());
+	}
+
+	IEnumerator ShowRoundEndMenu(){
+		yield return new WaitForSeconds(1.5f);
+		panelPlay.SetActive(false);
+		panelIndex.SetActive(false);
+		panelGameOver.SetActive(true);
+	}
+
+	void ClearSpawned(){
+		foreach(Transform spawned in spawnParent.transform){
+			Destroy(spawned.gameObject); // ugly
+		}
+	}
+
+
 	void FixedUpdate()
 	{
 		MovePlayer();
 		ManageBoard();
 		if(playing){
+			KeepScore();
 		}	
 	}
 
 
 	public void StartRound(){
 		print("start round");
+		positionAtRoundStart = player.transform.position.x;
+		RoundSetup();
+	}
+
+	void RoundSetup(){
 		playing = true;
+		currentScore = 0;
 		panelPlay.SetActive(true);
 		panelIndex.SetActive(false);
 		panelGameOver.SetActive(false);
 
 		spawnParent.transform.GetChild(spawnParent.transform.childCount -1).gameObject.GetComponent<RoadSection>().LateSpawnObstacles();
-		spawnParent.transform.GetChild(spawnParent.transform.childCount -2).gameObject.GetComponent<RoadSection>().LateSpawnObstacles();
+		spawnParent.transform.GetChild(spawnParent.transform.childCount -2).gameObject.GetComponent<RoadSection>().LateSpawnObstacles();	
 	}
 
+	public void RestartRound(){
+		player.transform.position = startPosition;
+		player.SetActive(true);
+		mainCam.transform.position = startCameraPosition;
+		lastBoardAt = 30;
+		ClearSpawned();
+		RoundSetup();
+	}
+	
 	public void ChangeLanes(){
 		print("called changelanes " + player.transform.position.z);
 		Vector3 temp = player.transform.position;
@@ -98,4 +146,13 @@ public class Lumbergh : MonoBehaviour {
 		}
 		player.transform.position = temp;
 	}
+
+	public void HitObstacle(){
+		print("hit obstacle");
+		GameObject newWreck = Instantiate(destroyedPrefab, player.transform.position, Quaternion.identity);
+		newWreck.transform.parent = spawnParent.transform;
+		player.SetActive(false);
+		EndRound();
+	}
+
 }

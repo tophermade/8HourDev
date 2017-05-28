@@ -5,6 +5,7 @@ using UnityEngine;
 public class RoadSection : MonoBehaviour {
 
 	public GameObject lumbergh;
+	public GameObject spawnParent;
 
 	public GameObject[] decorSpawns;
 	public GameObject[] obstacleSpawns;
@@ -16,6 +17,7 @@ public class RoadSection : MonoBehaviour {
 		foreach(GameObject spawn in decorSpawns){
 			if(Random.Range(1,6) == 3){
 				GameObject newDecor = Instantiate(decorPrefabs[Random.Range(0,decorPrefabs.Length)], spawn.transform.position, Quaternion.identity);
+				newDecor.transform.parent = spawnParent.transform;
 			}
 		}
 	}
@@ -25,6 +27,7 @@ public class RoadSection : MonoBehaviour {
 		foreach(GameObject spawn in obstacleSpawns){
 			if(lastX != spawn.transform.position.x && Random.Range(0,2) == 1){
 				GameObject newObstacle = Instantiate(obstaclePrefabs[Random.Range(0,obstaclePrefabs.Length)], spawn.transform.position, Quaternion.identity);
+				newObstacle.transform.parent = spawnParent.transform;
 				lastX = spawn.transform.position.x;
 			}
 		}
@@ -37,6 +40,7 @@ public class RoadSection : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		lumbergh = GameObject.Find("Lumbergh");
+		spawnParent = GameObject.Find("SpawnedObjects");
 		if(lumbergh.GetComponent<Lumbergh>().playing){
 			SpawnObstacles();
 		}
